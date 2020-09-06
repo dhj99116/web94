@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Select, message } from 'antd';
-import {withRouter} from 'react-router-dom'
-import {addPost,eaitPost} from '../serives/api'
-import {getHome} from '../actions/home'
+import { withRouter } from 'react-router-dom'
+import { addPost, eaitPost } from '../serives/api'
+import { getHome } from '../actions/home'
 import { connect } from 'react-redux';
 const { Option } = Select;
-const CollectionCreateForm = ({ visible, onCreate, onCancel, value,txt }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, value, txt }) => {
   const [form] = Form.useForm();
-  useEffect(()=>{
-    if(value.id){
+  useEffect(() => {
+    if (value.id) {
       form.setFieldsValue(value)
     }
-    else{
+    else {
       form.resetFields()
     }
-  },[value])
+  }, [value])
   function onChange(value) {
     console.log(`selected ${value}`);
   }
@@ -119,46 +119,46 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel, value,txt }) => {
 
 const Forms = (props) => {
   const [visible, setVisible] = useState(false);
-  const [value,setValue]=useState({})
-  const [txt,setTxt] =useState('添加')
-  useEffect(()=>{
-    if(props.vale.id){
+  const [value, setValue] = useState({})
+  const [txt, setTxt] = useState('添加')
+  useEffect(() => {
+    if (props.vale.id) {
       setValue(props.vale)
       setVisible(props.flag)
       setTxt(props.txt)
     }
-    
-  },[props])
-  const onCreate =async values => {
+
+  }, [props])
+  const onCreate = async values => {
     console.log('Received values of form: ', values);
     setVisible(false);
-    if(txt==='添加'){
-      const p1=await addPost(values)
-    console.log(p1)
-    if(p1.data.code===200){
-      message.success('添加成功')
-      props.getHome({limit:20,page:1})
-    }
-    else{
-      message.error('添加失败')
-    }
-    }
-    else{
-      values.id=props.vale.id
-      const eait=await eaitPost(values)
-      if(eait.data.code===200){
-        message.success('编辑成功')
-        props.getHome({limit:20,page:1})
+    if (txt === '添加') {
+      const p1 = await addPost(values)
+      console.log(p1)
+      if (p1.data.code === 200) {
+        message.success('添加成功')
+        props.getHome({ limit: 20, page: 1 })
       }
-      else{
+      else {
+        message.error('添加失败')
+      }
+    }
+    else {
+      values.id = props.vale.id
+      const eait = await eaitPost(values)
+      if (eait.data.code === 200) {
+        message.success('编辑成功')
+        props.getHome({ limit: 20, page: 1 })
+      }
+      else {
         message.error('编辑失败')
       }
     }
     props.clear()
     setTxt('添加')
     setValue({})
-    
-    
+
+
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Space, Button } from 'antd';
+import {listPost} from '../../serives/api'
 import { getHome } from '../../actions/home'
 import { connect } from 'react-redux'
 import Forms from '../../components/forms'
@@ -8,7 +9,8 @@ class Home extends Component {
     selectedRowKeys: [],
     flag:false,
     vale:{},
-    txt:'添加'
+    txt:'添加',
+    count:''
   };
   clear=()=>{
     this.setState({
@@ -17,9 +19,16 @@ class Home extends Component {
       txt:'添加'
     })
   }
-  componentDidMount() {
-    this.props.getHome({ limit: 20, page: 1 })
+   async componentDidMount() {
+    
+    const count1=await listPost({limit:30,page:1})
+    console.log(count1)
+    this.setState({
+      count:count1.data.result.list.length
+    })
+    await this.props.getHome({ limit: 3, page: 1 })
   }
+
   onSelectChange = selectedRowKeys => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
@@ -31,8 +40,12 @@ class Home extends Component {
       txt:'编辑'
     })
   }
+  changeFn=(page,pageSize)=>{
+    console.log(page,pageSize)
+    this.props.getHome({limit:3,page:page})
+  }
   render() {
-    const {selectedRowKeys,flag,txt,vale}=this.state
+    const {selectedRowKeys,flag,txt,vale,count}=this.state
     const columns = [
       {
         title: '赛事名称',
@@ -113,6 +126,11 @@ class Home extends Component {
             columns={columns}
             dataSource={this.props.home.data}
             rowKey='id'
+            pagination={{
+              pageSize:3,
+              total:count,
+              onChange:this.changeFn
+            }}
           />
         </div>
       </div>
