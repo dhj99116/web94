@@ -5,8 +5,18 @@ import { connect } from 'react-redux'
 import Forms from '../../components/forms'
 class Home extends Component {
   state = {
-    selectedRowKeys: [], // Check here to configure the default column
+    selectedRowKeys: [],
+    flag:false,
+    vale:{},
+    txt:'添加'
   };
+  clear=()=>{
+    this.setState({
+      flag:false,
+      vale:{},
+      txt:'添加'
+    })
+  }
   componentDidMount() {
     this.props.getHome({ limit: 20, page: 1 })
   }
@@ -14,7 +24,15 @@ class Home extends Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
+  eait=(val)=>{
+    this.setState({
+      flag:true,
+      vale:val,
+      txt:'编辑'
+    })
+  }
   render() {
+    const {selectedRowKeys,flag,txt,vale}=this.state
     const columns = [
       {
         title: '赛事名称',
@@ -31,13 +49,13 @@ class Home extends Component {
       {
         title: '操作',
         dataIndex: 'id',
-        render:(text,item)=>{
-          return(
+        render: (text, item) => {
+          return (
             <Space>
               <Button>
                 详情
               </Button>
-              <Button>
+              <Button onClick={()=>this.eait(item)}>
                 编辑
               </Button>
               <Button>
@@ -48,7 +66,6 @@ class Home extends Component {
         }
       },
     ];
-    const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -88,15 +105,15 @@ class Home extends Component {
     return (
       <div className='wrap'>
         <div className='top'>
-          <Forms />
+          <Forms flag={flag} vale={vale} txt={txt} clear={this.clear} />
         </div>
         <div className='sec'>
-        <Table 
-        rowSelection={rowSelection} 
-        columns={columns} 
-        dataSource={this.props.home.data} 
-        rowKey='id'
-        />
+          <Table
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={this.props.home.data}
+            rowKey='id'
+          />
         </div>
       </div>
     )

@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Select, message } from 'antd';
-import {addPost} from '../serives/api'
+import {withRouter} from 'react-router-dom'
+import {addPost,eaitPost} from '../serives/api'
+import {getHome} from '../actions/home'
+import { connect } from 'react-redux';
 const { Option } = Select;
-const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, value,txt }) => {
   const [form] = Form.useForm();
+  useEffect(()=>{
+    if(value.id){
+      form.setFieldsValue(value)
+    }
+    else{
+      form.resetFields()
+    }
+  },[value])
   function onChange(value) {
     console.log(`selected ${value}`);
   }
   return (
     <Modal
       visible={visible}
-      title="Create a new collection"
-      okText="Create"
+      title={txt}
+      okText={txt}
       cancelText="Cancel"
       onCancel={onCancel}
+      getContainer={false}
       onOk={() => {
         form
           .validateFields()
@@ -105,21 +117,47 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const Forms = () => {
+const Forms = (props) => {
   const [visible, setVisible] = useState(false);
-
+  const [value,setValue]=useState({})
+  const [txt,setTxt] =useState('添加')
+  useEffect(()=>{
+    if(props.vale.id){
+      setValue(props.vale)
+      setVisible(props.flag)
+      setTxt(props.txt)
+    }
+    
+  },[props])
   const onCreate =async values => {
     console.log('Received values of form: ', values);
     setVisible(false);
-    const p1=await addPost(values)
+    if(txt==='添加'){
+      const p1=await addPost(values)
     console.log(p1)
     if(p1.data.code===200){
       message.success('添加成功')
-
+      props.getHome({limit:20,page:1})
     }
     else{
       message.error('添加失败')
     }
+    }
+    else{
+      values.id=props.vale.id
+      const eait=await eaitPost(values)
+      if(eait.data.code===200){
+        message.success('编辑成功')
+        props.getHome({limit:20,page:1})
+      }
+      else{
+        message.error('编辑失败')
+      }
+    }
+    props.clear()
+    setTxt('添加')
+    setValue({})
+    
     
   };
 
@@ -135,12 +173,22 @@ const Forms = () => {
       </Button>
       <CollectionCreateForm
         visible={visible}
+        value={value}
+        txt={txt}
         onCreate={onCreate}
         onCancel={() => {
           setVisible(false);
+          setTxt('添加')
+          setValue({})
+          props.clear()
         }}
       />
     </div>
   );
 };
-export default Forms
+export default connect(
+  null,
+  {
+    getHome
+  }
+)(withRouter(Forms))
