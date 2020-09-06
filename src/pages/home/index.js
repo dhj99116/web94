@@ -68,7 +68,7 @@ class Home extends Component {
               <Button>
                 详情
               </Button>
-              <Button onClick={()=>this.eait(item)}>
+              <Button onClick={()=>this.eait(item)} disabled={selectedRowKeys.includes(text)}>
                 编辑
               </Button>
               <Button>
@@ -133,6 +133,7 @@ class Home extends Component {
             }}
           />
         </div>
+        <div>{selectedRowKeys.length}条</div>
       </div>
     )
   }
