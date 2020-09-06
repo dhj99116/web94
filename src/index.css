@@ -40,3 +40,6 @@ html,body,#root,.box{
   display: flex;
   justify-content: flex-end;
 }
+.sec{
+  width: 100%;
+}

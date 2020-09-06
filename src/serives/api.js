@@ -6,7 +6,7 @@ export function eaitPost(val){
   return http.post('https://blog.zdldove.top/Home/Apis/samplePut',{'info[id]':val.id,info:val})
 }
 export function addPost(val){
-  return http.post('https://blog.zdldove.top/Home/Apis/sampleList',{info:val})
+  return http.post('https://blog.zdldove.top/Home/Apis/samplePut',{info:val})
 }
 export function loginPost(val){
   return http.post('https://blog.zdldove.top/Home/Apis/sampleLogin',val)

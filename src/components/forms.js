@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Select } from 'antd';
+import { Button, Modal, Form, Input, Select, message } from 'antd';
+import {addPost} from '../serives/api'
 const { Option } = Select;
 const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
@@ -107,9 +108,19 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 const Forms = () => {
   const [visible, setVisible] = useState(false);
 
-  const onCreate = values => {
+  const onCreate =async values => {
     console.log('Received values of form: ', values);
     setVisible(false);
+    const p1=await addPost(values)
+    console.log(p1)
+    if(p1.data.code===200){
+      message.success('添加成功')
+
+    }
+    else{
+      message.error('添加失败')
+    }
+    
   };
 
   return (
@@ -120,7 +131,7 @@ const Forms = () => {
           setVisible(true);
         }}
       >
-        New Collection
+        添加
       </Button>
       <CollectionCreateForm
         visible={visible}

@@ -3,7 +3,7 @@ import qs from 'qs'
 const http=axios.create()
 http.interceptors.request.use(function(config){
   let token=localStorage.getItem('token')
-  config.data.token=token
+    config.data.token=token
     if(!(config.data instanceof FormData)&&config.method==='post'){
         config.data=qs.stringify(config.data)
     }
