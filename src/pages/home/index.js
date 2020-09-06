@@ -11,7 +11,12 @@ class Home extends Component {
     vale:{},
     txt:'添加',
     count:'',
-    data:[]
+    data:[],
+    info:{
+      name:'',
+      types:'',
+      title:''
+    }
   };
   clear=()=>{
     this.setState({
@@ -80,7 +85,7 @@ class Home extends Component {
     console.log(val)
   }
   render() {
-    const {selectedRowKeys,flag,txt,vale,count}=this.state
+    const {selectedRowKeys,flag,txt,vale,count,info}=this.state
     const columns = [
       {
         title: '赛事名称',
@@ -152,6 +157,17 @@ class Home extends Component {
     };
     return (
       <div className='wrap'>
+      <div className='zhe'>
+        <div>
+          赛事名称:{info.name}
+        </div>
+        <div>
+          所属赛事:{info.title}
+        </div>
+        <div>
+          赛事类型:{info.types}
+        </div>
+      </div>
         <div className='top'>
         <Button type='primary' onClick={this.fn1}>排序</Button>
         <Button onClick={this.fn2}>取消</Button>

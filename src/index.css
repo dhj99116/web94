@@ -32,6 +32,7 @@ html,body,#root,.box{
 }
 .wrap{
   width: 100%;
+  position: relative;
 }
 .top{
   width: 100%;
@@ -42,4 +43,15 @@ html,body,#root,.box{
 }
 .sec{
   width: 100%;
+}
+.zhe{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white !important;
+  color: blue;
+  font-size:22px;
+  z-index: 11;
 }
