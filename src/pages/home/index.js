@@ -76,6 +76,9 @@ class Home extends Component {
   fn2=()=>{
     this.props.setHome(this.state.data)
   }
+  infoFn=(val)=>{
+    console.log(val)
+  }
   render() {
     const {selectedRowKeys,flag,txt,vale,count}=this.state
     const columns = [
@@ -97,7 +100,7 @@ class Home extends Component {
         render: (text, item) => {
           return (
             <Space>
-              <Button>
+              <Button onClick={()=>this.infoFn(item)}>
                 详情
               </Button>
               <Button onClick={()=>this.eait(item)} disabled={selectedRowKeys.includes(text)}>
