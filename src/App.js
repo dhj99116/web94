@@ -2,8 +2,11 @@ import React from 'react';
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
 import Home from './pages/home'
 import Login from './pages/login'
+import About from './pages/about'
+import List from './pages/list'
 import Reg from './pages/reg'
 import Sec from './components/Sec'
+
 import './App.css';
 
 class App extends React.Component {
@@ -23,6 +26,8 @@ class App extends React.Component {
                 <Sec>
                   <Switch>
                     <Route path='/home' component={Home} />
+                    <Route path='/list' component={List} />
+                    <Route path='/about' component={About} />
                     <Redirect from='/' to='/home' />
                   </Switch>
                 </Sec>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { NavLink } from 'react-router-dom';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -25,9 +26,10 @@ export default class Sec extends Component {
           style={{ height: '100%', borderRight: 0 }}
         >
           <SubMenu key="sub1" icon={<UserOutlined />} title="首页">
-            <Menu.Item key="1">评委管理</Menu.Item>
-            <Menu.Item key="2">赛事管理</Menu.Item>
-            <Menu.Item key="3">参赛管理</Menu.Item>
+            <Menu.Item key="1">
+            <NavLink to='/home'>评委管理</NavLink></Menu.Item>
+            <Menu.Item key="2"><NavLink to='/about'>赛事管理</NavLink></Menu.Item>
+            <Menu.Item key="3"><NavLink to='/list'>参赛管理</NavLink></Menu.Item>
             <Menu.Item key="4">option4</Menu.Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
