@@ -12,11 +12,8 @@ class Home extends Component {
     txt:'添加',
     count:'',
     data:[],
-    info:{
-      name:'',
-      types:'',
-      title:''
-    }
+    info:{name:'',types:'',title:''},
+    cont:false
   };
   clear=()=>{
     this.setState({
@@ -82,10 +79,14 @@ class Home extends Component {
     this.props.setHome(this.state.data)
   }
   infoFn=(val)=>{
+    this.setState({
+      cont:true,
+      info:val
+    })
     console.log(val)
   }
   render() {
-    const {selectedRowKeys,flag,txt,vale,count,info}=this.state
+    const {selectedRowKeys,flag,txt,vale,count,info,cont}=this.state
     const columns = [
       {
         title: '赛事名称',
@@ -157,7 +158,7 @@ class Home extends Component {
     };
     return (
       <div className='wrap'>
-      <div className='zhe'>
+      <div className={cont===true?'zhe':'zhe1'}>
         <div>
           赛事名称:{info.name}
         </div>
@@ -166,6 +167,9 @@ class Home extends Component {
         </div>
         <div>
           赛事类型:{info.types}
+        </div>
+        <div>
+          <Button onClick={()=>{this.setState({cont:false})}}>退出</Button>
         </div>
       </div>
         <div className='top'>
