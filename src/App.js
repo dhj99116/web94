@@ -9,7 +9,7 @@ import './App.css';
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <div className='box'>
         <BrowserRouter>
           <Switch>
             <Route path='/login' component={Login} />
