@@ -11,6 +11,8 @@ export default function home(state = defaultState, action) {
         return { ...v, ...json }
       })
       return { ...state, data: newLists }
+    case 'SET_HOME':
+      return { ...state, data: action.payload }
     default:
       return state
   }

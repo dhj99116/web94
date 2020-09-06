@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Space, Button } from 'antd';
 import {listPost} from '../../serives/api'
-import { getHome } from '../../actions/home'
+import { getHome,setHome} from '../../actions/home'
 import { connect } from 'react-redux'
 import Forms from '../../components/forms'
 class Home extends Component {
@@ -10,7 +10,8 @@ class Home extends Component {
     flag:false,
     vale:{},
     txt:'添加',
-    count:''
+    count:'',
+    data:[]
   };
   clear=()=>{
     this.setState({
@@ -27,6 +28,11 @@ class Home extends Component {
       count:count1.data.result.list.length
     })
     await this.props.getHome({ limit: 3, page: 1 })
+    const {data}=this.props.home
+    let datas=JSON.parse(JSON.stringify(data))
+    this.setState({
+      data:datas
+    })
   }
 
   onSelectChange = selectedRowKeys => {
@@ -43,6 +49,32 @@ class Home extends Component {
   changeFn=(page,pageSize)=>{
     console.log(page,pageSize)
     this.props.getHome({limit:3,page:page})
+    const {data}=this.props.home
+    let datas=JSON.parse(JSON.stringify(data))
+    this.setState({
+      data:datas
+    })
+  }
+  fn1=()=>{
+    const {data}=this.props.home
+    let dataList=JSON.parse(JSON.stringify(data))
+    const {selectedRowKeys}=this.state
+   
+    let info=[]
+    for(let i=0;i<dataList.length;i++){
+      for(let j=0;j<selectedRowKeys.length;j++){
+        if(dataList[i].id===selectedRowKeys[j]){
+          info.push(dataList[i])
+          dataList.splice(i,1)
+          break
+        }
+      }
+      let newList=info.concat(dataList)
+      this.props.setHome(newList)
+    }
+  }
+  fn2=()=>{
+    this.props.setHome(this.state.data)
   }
   render() {
     const {selectedRowKeys,flag,txt,vale,count}=this.state
@@ -118,6 +150,8 @@ class Home extends Component {
     return (
       <div className='wrap'>
         <div className='top'>
+        <Button type='primary' onClick={this.fn1}>排序</Button>
+        <Button onClick={this.fn2}>取消</Button>
           <Forms flag={flag} vale={vale} txt={txt} clear={this.clear} />
         </div>
         <div className='sec'>
@@ -141,6 +175,7 @@ class Home extends Component {
 export default connect(
   ({ home }) => ({ home }),
   {
-    getHome
+    getHome,
+    setHome
   }
 )(Home)

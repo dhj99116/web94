@@ -5,3 +5,9 @@ export function getHome(payload) {
     payload: listPost(payload)
   }
 }
+export function setHome(payload) {
+  return {
+    type: 'SET_HOME',
+    payload
+  }
+}
