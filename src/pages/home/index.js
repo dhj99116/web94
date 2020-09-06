@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-
-export default class Home extends Component {
+import {getHome} from '../../actions/home'
+import { connect } from 'react-redux'
+class Home extends Component {
+  componentDidMount(){
+    this.props.getHome({limit:20,page:1})
+  }
   render() {
     return (
       <div>
@@ -9,3 +13,9 @@ export default class Home extends Component {
     )
   }
 }
+export default connect(
+  ({home})=>({home}),
+  {
+    getHome
+  }
+)(Home)
