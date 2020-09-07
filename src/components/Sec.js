@@ -47,6 +47,11 @@ class Sec extends Component {
   }
   render() {
     const {list} =this.state
+    let pathname=this.props.location.pathname
+    if(pathname==='/'){
+      pathname='/home'
+    }
+    console.log(pathname)
     return (
       <Layout style={{ width: '100%', height: '100%' }}>
         <Header className="header">
@@ -61,20 +66,20 @@ class Sec extends Component {
           <Sider width={200} className="site-layout-background">
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={[pathname]}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="首页">
-                <Menu.Item key="1">
+                <Menu.Item key="/home">
                   <NavLink to='/home' onClick={() => this.fun1('/home')}>评委管理</NavLink>
                  
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="/about">
                   <NavLink to='/about' onClick={() => this.fun1('/about')}>赛事管理</NavLink>
                   
                 </Menu.Item>
-                <Menu.Item key="3">
+                <Menu.Item key="/list">
                   <NavLink to='/list' onClick={() => this.fun1('/list')}>参赛管理</NavLink>
               
                 </Menu.Item>
