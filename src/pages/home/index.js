@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Space, Button } from 'antd';
+import { Table, Space, Button, Input } from 'antd';
 import { listPost } from '../../serives/api'
 import { getHome, setHome } from '../../actions/home'
 import { connect } from 'react-redux'
@@ -180,6 +180,11 @@ class Home extends Component {
           <Button type='primary' onClick={this.fn1}>排序</Button>
           <Button onClick={this.fn2}>取消</Button>
           <Forms flag={flag} vale={vale} txt={txt} clear={this.clear} />
+        </div>
+        <div className='hea'>
+          <div>赛事名称:<Input /></div>
+          <div>所属赛事:<Input /></div>
+          <div>赛事类型:<Input /></div>
         </div>
         <div className='sec'>
           <Table

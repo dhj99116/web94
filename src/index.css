@@ -75,3 +75,18 @@ align-items: center;
   padding-left: 20px;
   box-sizing: border-box;
 }
+.hea{
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.hea>div{
+  width: 33.3%;
+  display: flex;
+}
+.hea>div>input{
+  width: 50%;
+  height: 30px;
+}
