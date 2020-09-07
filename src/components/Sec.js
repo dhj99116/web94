@@ -9,6 +9,13 @@ class Sec extends Component {
   state = {
     list: []
   }
+  componentDidMount(){
+    let newArr=[]
+    newArr.push(this.props.location.pathname)
+    this.setState({
+      list:newArr
+    })
+  }
   fun1 = (val) => {
     let newListd = this.state.list
     if (!newListd.includes(val)) {
@@ -20,6 +27,8 @@ class Sec extends Component {
   }
   fun2=(val)=>{
     let listd=this.state.list
+    console.log(this.props)
+    let {pathname}=this.props.location
     let newData
     if(listd.length>1){
       newData=listd.filter(v=>{
@@ -28,6 +37,9 @@ class Sec extends Component {
     this.setState({
       list:newData
     })
+    if(val===pathname){
+      this.props.history.push(newData[newData.length-1])
+    }
     }
     
     
@@ -105,7 +117,7 @@ class Sec extends Component {
                     return (
                       <div key={v}>
                       {a}
-                        <span onClick={() => this.fun2(v)}>X</span>
+                        <span onClick={() => this.fun2(v)} className={list.length>1?'':'zhe1'}>X</span>
                       </div>
                     )
                   })
