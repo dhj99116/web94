@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 const http=axios.create()
+http.defaults.baseURL='https://blog.zdldove.top'
 http.interceptors.request.use(function(config){
   let token=localStorage.getItem('token')
     config.data.token=token

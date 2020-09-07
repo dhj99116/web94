@@ -1,39 +1,39 @@
 import React, { Component } from 'react'
 import { Table, Space, Button } from 'antd';
-import {listPost} from '../../serives/api'
-import { getHome,setHome} from '../../actions/home'
+import { listPost } from '../../serives/api'
+import { getHome, setHome } from '../../actions/home'
 import { connect } from 'react-redux'
 import Forms from '../../components/forms'
 class Home extends Component {
   state = {
     selectedRowKeys: [],
-    flag:false,
-    vale:{},
-    txt:'添加',
-    count:'',
-    data:[],
-    info:{name:'',types:'',title:''},
-    cont:false
+    flag: false,
+    vale: {},
+    txt: '添加',
+    count: '',
+    data: [],
+    info: { name: '', types: '', title: '' },
+    cont: false
   };
-  clear=()=>{
+  clear = () => {
     this.setState({
-      flag:false,
-      vale:{},
-      txt:'添加'
+      flag: false,
+      vale: {},
+      txt: '添加'
     })
   }
-   async componentDidMount() {
-    
-    const count1=await listPost({limit:30,page:1})
+  async componentDidMount() {
+
+    const count1 = await listPost({ limit: 30, page: 1 })
     console.log(count1)
     this.setState({
-      count:count1.data.result.list.length
+      count: count1.data.result.list.length
     })
     await this.props.getHome({ limit: 3, page: 1 })
-    const {data}=this.props.home
-    let datas=JSON.parse(JSON.stringify(data))
+    const { data } = this.props.home
+    let datas = JSON.parse(JSON.stringify(data))
     this.setState({
-      data:datas
+      data: datas
     })
   }
 
@@ -41,52 +41,53 @@ class Home extends Component {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
-  eait=(val)=>{
+  eait = (val) => {
     this.setState({
-      flag:true,
-      vale:val,
-      txt:'编辑'
+      flag: true,
+      vale: val,
+      txt: '编辑'
     })
   }
-  changeFn=(page,pageSize)=>{
-    console.log(page,pageSize)
-    this.props.getHome({limit:3,page:page})
-    const {data}=this.props.home
-    let datas=JSON.parse(JSON.stringify(data))
+  changeFn = (page, pageSize) => {
+    console.log(page, pageSize)
+    this.props.getHome({ limit: 3, page: page })
+    const { data } = this.props.home
+    let datas = JSON.parse(JSON.stringify(data))
     this.setState({
-      data:datas
+      data: datas,
+      selectedRowKeys: []
     })
   }
-  fn1=()=>{
-    const {data}=this.props.home
-    let dataList=JSON.parse(JSON.stringify(data))
-    const {selectedRowKeys}=this.state
-   
-    let info=[]
-    for(let i=0;i<dataList.length;i++){
-      for(let j=0;j<selectedRowKeys.length;j++){
-        if(dataList[i].id===selectedRowKeys[j]){
+  fn1 = () => {
+    const { data } = this.props.home
+    let dataList = JSON.parse(JSON.stringify(data))
+    const { selectedRowKeys } = this.state
+
+    let info = []
+    for (let i = 0; i < dataList.length; i++) {
+      for (let j = 0; j < selectedRowKeys.length; j++) {
+        if (dataList[i].id === selectedRowKeys[j]) {
           info.push(dataList[i])
-          dataList.splice(i,1)
+          dataList.splice(i, 1)
           break
         }
       }
-      let newList=info.concat(dataList)
+      let newList = info.concat(dataList)
       this.props.setHome(newList)
     }
   }
-  fn2=()=>{
+  fn2 = () => {
     this.props.setHome(this.state.data)
   }
-  infoFn=(val)=>{
+  infoFn = (val) => {
     this.setState({
-      cont:true,
-      info:val
+      cont: true,
+      info: val
     })
     console.log(val)
   }
   render() {
-    const {selectedRowKeys,flag,txt,vale,count,info,cont}=this.state
+    const { selectedRowKeys, flag, txt, vale, count, info, cont } = this.state
     const columns = [
       {
         title: '赛事名称',
@@ -106,13 +107,16 @@ class Home extends Component {
         render: (text, item) => {
           return (
             <Space>
-              <Button onClick={()=>this.infoFn(item)}>
+              <Button onClick={() => this.infoFn(item)}>
                 详情
               </Button>
-              <Button onClick={()=>this.eait(item)} disabled={selectedRowKeys.includes(text)}>
+              <Button
+                onClick={() => this.eait(item)}
+                disabled={selectedRowKeys.includes(text)}
+              >
                 编辑
               </Button>
-              <Button>
+              <Button disabled={selectedRowKeys.includes(text)}>
                 删除
               </Button>
             </Space>
@@ -158,23 +162,23 @@ class Home extends Component {
     };
     return (
       <div className='wrap'>
-      <div className={cont===true?'zhe':'zhe1'}>
-        <div>
-          赛事名称:{info.name}
+        <div className={cont === true ? 'zhe' : 'zhe1'}>
+          <div>
+            赛事名称:{info.name}
+          </div>
+          <div>
+            所属赛事:{info.title}
+          </div>
+          <div>
+            赛事类型:{info.types}
+          </div>
+          <div>
+            <Button onClick={() => { this.setState({ cont: false }) }}>退出</Button>
+          </div>
         </div>
-        <div>
-          所属赛事:{info.title}
-        </div>
-        <div>
-          赛事类型:{info.types}
-        </div>
-        <div>
-          <Button onClick={()=>{this.setState({cont:false})}}>退出</Button>
-        </div>
-      </div>
         <div className='top'>
-        <Button type='primary' onClick={this.fn1}>排序</Button>
-        <Button onClick={this.fn2}>取消</Button>
+          <Button type='primary' onClick={this.fn1}>排序</Button>
+          <Button onClick={this.fn2}>取消</Button>
           <Forms flag={flag} vale={vale} txt={txt} clear={this.clear} />
         </div>
         <div className='sec'>
@@ -184,9 +188,9 @@ class Home extends Component {
             dataSource={this.props.home.data}
             rowKey='id'
             pagination={{
-              pageSize:3,
-              total:count,
-              onChange:this.changeFn
+              pageSize: 3,
+              total: count,
+              onChange: this.changeFn
             }}
           />
         </div>

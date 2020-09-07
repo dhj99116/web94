@@ -9,11 +9,11 @@ class Sec extends Component {
   state = {
     list: []
   }
-  componentDidMount(){
-    let newArr=[]
+  componentDidMount() {
+    let newArr = []
     newArr.push(this.props.location.pathname)
     this.setState({
-      list:newArr
+      list: newArr
     })
   }
   fun1 = (val) => {
@@ -25,32 +25,35 @@ class Sec extends Component {
       list: newListd
     })
   }
-  fun2=(val)=>{
-    let listd=this.state.list
+  fun2 = (val) => {
+    let listd = this.state.list
     console.log(this.props)
-    let {pathname}=this.props.location
+    let { pathname } = this.props.location
     let newData
-    if(listd.length>1){
-      newData=listd.filter(v=>{
-      return v!==val
-    })
-    this.setState({
-      list:newData
-    })
-    if(val===pathname){
-      this.props.history.push(newData[newData.length-1])
+    if (listd.length > 1) {
+      newData = listd.filter(v => {
+        return v !== val
+      })
+      this.setState({
+        list: newData
+      })
+      if (val === pathname) {
+        this.props.history.push(newData[newData.length - 1])
+      }
     }
-    }
-    
-    
-    
+
+
+
   }
   render() {
-    const {list} =this.state
-    let pathname=this.props.location.pathname
-    if(pathname==='/'){
-      pathname='/home'
+    const { list } = this.state
+    let pathname = this.props.location.pathname
+    if (pathname === '/') {
+      pathname = '/home'
     }
+    pathname = pathname.split('')
+    pathname.shift()
+    pathname = pathname.join('')
     console.log(pathname)
     return (
       <Layout style={{ width: '100%', height: '100%' }}>
@@ -66,22 +69,22 @@ class Sec extends Component {
           <Sider width={200} className="site-layout-background">
             <Menu
               mode="inline"
-              defaultSelectedKeys={[pathname]}
+              selectedKeys={[pathname]}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="首页">
-                <Menu.Item key="/home">
+                <Menu.Item key="home">
                   <NavLink to='/home' onClick={() => this.fun1('/home')}>评委管理</NavLink>
-                 
+
                 </Menu.Item>
-                <Menu.Item key="/about">
+                <Menu.Item key="about">
                   <NavLink to='/about' onClick={() => this.fun1('/about')}>赛事管理</NavLink>
-                  
+
                 </Menu.Item>
-                <Menu.Item key="/list">
+                <Menu.Item key="list">
                   <NavLink to='/list' onClick={() => this.fun1('/list')}>参赛管理</NavLink>
-              
+
                 </Menu.Item>
                 <Menu.Item key="4">option4</Menu.Item>
               </SubMenu>
@@ -115,14 +118,14 @@ class Sec extends Component {
             >
               <div className='topp'>
                 {
-                  list.map((v,i)=>{
-                    let a=v.split('')
+                  list.map((v, i) => {
+                    let a = v.split('')
                     a.shift()
-                    a=a.join('')
+                    a = a.join('')
                     return (
                       <div key={v}>
-                      {a}
-                        <span onClick={() => this.fun2(v)} className={list.length>1?'':'zhe1'}>X</span>
+                        {a}
+                        <span onClick={() => this.fun2(v)} className={list.length > 1 ? '' : 'zhe1'}>X</span>
                       </div>
                     )
                   })
